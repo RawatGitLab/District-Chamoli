@@ -1,65 +1,89 @@
-🌍 District Chamoli - Geography for Planners & Administrators
-This repository contains the source code for a live, interactive web application designed to present the geographical data of District Chamoli, Uttarakhand. The application serves as a dynamic tool for administrators, planners, and researchers.
+# 🗺️ District Chamoli – GIS Viewer
 
-Live Application: https://district-chamoli.onrender.com/
+An interactive, map-based portal for Almora District, built with React, TypeScript, Leaflet, and the Google Gemini API. The app lets citizens and administrators explore geospatial data, layers, and district information through a fast, modern web interface.
 
-🗺️ Project Overview
-The primary goal of this project is to provide a centralized, accessible platform for visualizing and understanding the spatial geography of District Chamoli. The application is built to handle and display key geographical features, including:
+Live demo: https://district-Chamoli.onrender.com/
 
-Administrative boundaries
+📖 About
+This repository hosts the Chamoli GIS Viewer — a web application for visualizing geographic and administrative data for Chamoli District, Uttarakhand. It combines an interactive Leaflet map with an Express/Node backend and Gemini-powered AI capabilities.
 
-River streams and networks
-
-Village locations
-
-The application is currently in a live data synchronization phase, securely connecting to a MongoDB database to download and process these spatial shapefiles.
-
-✨ Features (Current & Planned)
-Live Data Stream: Connects to a MongoDB database to download the latest geographical boundaries, river streams, and village data.
-
-Interactive Map Interface: (To be fully implemented post-data synchronization) for exploring district layers.
-
-Targeted for Professionals: Designed specifically with the needs of district planners and administrators in mind.
-
+✨ Features
+🗺️ Interactive mapping with Leaflet and proj4 for coordinate/projection handling
+⚛️ Modern frontend built with React 19, TypeScript, and Vite
+🤖 AI-assisted features powered by the @google/genai (Gemini) SDK
+🎨 Styled with Tailwind CSS and animated with Motion
+🖥️ Node/Express backend (server.ts) serving the app and API routes
+🗄️ MongoDB integration for persisting application data
+🎛️ Icons via Lucide
+🛠️ Tech Stack
+Layer	Technology
+Frontend	React 19, TypeScript, Vite, Tailwind CSS
+Mapping	Leaflet, proj4
+AI	Google Gemini (@google/genai)
+Backend	Node.js, Express, tsx
+Database	MongoDB
+Animation / UI	Motion, Lucide React
+Tooling	esbuild, TypeScript compiler
+📂 Project Structure
+District-Chamoli/
+├── src/                  # Application source (components, map logic, etc.)
+├── index.html            # App entry HTML
+├── server.ts             # Express server entry point
+├── check-properties.js   # Utility/validation script
+├── metadata.json         # App metadata (used by AI Studio)
+├── vite.config.ts        # Vite build configuration
+├── tsconfig.json         # TypeScript configuration
+├── .env.example           # Environment variable template
+├── package.json
+└── README.md
 🚀 Getting Started
-To view the current state of the application, simply visit the live URL:
-https://district-chamoli.onrender.com/
+Prerequisites
+Node.js (LTS recommended)
+npm
+A Gemini API key
+Installation
+# Clone the repository
+git clone https://github.com/RawatGitLab/District-Chamoli.git
 
-As the application is in its setup phase, you may see a status message indicating "Awaiting MongoDB Live Stream." This means the server is actively fetching and preparing the geographical data.
+# Navigate into the project directory
+cd District-Chamoli
 
-🛠️ Technology Stack
-Hosting: Render (Backend/Application server)
+# Install dependencies
+npm install
+Environment Variables
+Copy .env.example to .env and fill in the required values:
 
-Database: MongoDB (for storing and streaming spatial shapefiles)
+cp .env.example .env
+Variable	Description
+GEMINI_API_KEY	Required for Gemini AI API calls
+APP_URL	The URL where the app is hosted (used for self-referential links/callbacks)
+Available Scripts
+Command	Description
+npm run dev	Start the development server (tsx server.ts)
+npm run build	Build the frontend with Vite and bundle the server with esbuild
+npm start	Run the production build (dist/server.cjs)
+npm run preview	Preview the production Vite build
+npm run lint	Type-check the project (tsc --noEmit)
+npm run clean	Remove build artifacts
+Running Locally
+npm run dev
+Then open the URL printed in your terminal (typically http://localhost:5173 or the port configured by Vite/Express).
 
-Frontend: (To be detailed - e.g., likely a JavaScript framework/library for map rendering)
+Building for Production
+npm run build
+npm start
+🤝 Contributing
+Contributions are welcome!
 
-Backend: (To be detailed - e.g., Node.js, Python)
+🍴 Fork the repository
+🌿 Create a feature branch: git checkout -b feature/AmazingFeature
+💾 Commit your changes: git commit -m 'Add some AmazingFeature'
+📤 Push to the branch: git push origin feature/AmazingFeature
+🎉 Open a Pull Request
+📜 License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-📊 Data Sources
-The application synchronizes with a secure database containing the following spatial data layers for Chamoli:
+📞 Contact
+For queries or issues related to this project, reach out via the repository's Issues page.
 
-Geographical Boundaries (District/Tehsil/Block levels)
-
-River Streams (Waterway networks)
-
-Village Locations (Settlements)
-
-📈 Status & Roadmap
-Current Phase: Data synchronization and live streaming from MongoDB.
-
-Next Steps:
-
-Finalize data loading for all entities.
-
-Enable interactive map layer toggling.
-
-Add search and query functionality for specific villages or features.
-
-Deploy the complete interactive mapping interface.
-
-👥 Contributing
-This project is intended for the use of district planners and administrators. For feedback, suggestions, or to report issues, please open an issue on this repository.
-
-📄 License
-(Specify your license here, e.g., MIT, Apache 2.0, or state "All Rights Reserved" if not open-source)
+Built for Chamoli District 🏔️
