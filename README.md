@@ -1,14 +1,14 @@
 # 🗺️ District Chamoli – GIS Viewer
 
-An interactive, map-based portal for **Chamoli District**, built with React, TypeScript, Leaflet, and the Google Gemini API. The app lets citizens and administrators explore geospatial data, layers, and district information through a fast, modern web interface.
+An interactive, map-based portal for **Chamoli District**, built with React, TypeScript and Leaflet. The app lets citizens and administrators explore geospatial data, layers, and district information through a fast, modern web interface.
 
-> **Live demo:** https://district-Chamoli.onrender.com/
+> **Live demo:** https://district-chamoli.onrender.com/
 
 ---
 
 ## 📖 About
 
-This repository hosts the **Chamoli GIS Viewer** — a web application for visualizing geographic and administrative data for Chamoli District, Uttarakhand. It combines an interactive Leaflet map with an Express/Node backend and Gemini-powered AI capabilities, and was bootstrapped from the [`google-gemini/aistudio-repository-template`](https://github.com/google-gemini/aistudio-repository-template).
+This repository hosts the **Chamoli GIS Viewer** — a web application for visualizing geographic and administrative data for Chamoli District, Uttarakhand.
 
 ## ✨ Features
 
@@ -26,7 +26,6 @@ This repository hosts the **Chamoli GIS Viewer** — a web application for visua
 |---|---|
 | Frontend | React 19, TypeScript, Vite, Tailwind CSS |
 | Mapping | Leaflet, proj4 |
-| AI | Google Gemini (`@google/genai`) |
 | Backend | Node.js, Express, tsx |
 | Database | MongoDB |
 | Animation / UI | Motion, Lucide React |
@@ -54,7 +53,6 @@ District-Chamoli/
 
 - [Node.js](https://nodejs.org/) (LTS recommended)
 - npm
-- A [Gemini API key](https://aistudio.google.com/apikey)
 
 ### Installation
 
@@ -79,7 +77,6 @@ cp .env.example .env
 
 | Variable | Description |
 |---|---|
-| `GEMINI_API_KEY` | Required for Gemini AI API calls |
 | `APP_URL` | The URL where the app is hosted (used for self-referential links/callbacks) |
 
 ### Available Scripts
