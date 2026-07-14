@@ -1,7 +1,5 @@
 import { MongoClient } from "mongodb";
 
-
-
 async function run() {
   const client = new MongoClient(MONGODB_URI);
   await client.connect();
