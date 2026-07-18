@@ -26,7 +26,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
 
   // Map & Interaction state
-  const [activeBaseMap, setActiveBaseMap] = useState<string>("osm");
+  const [activeBaseMap, setActiveBaseMap] = useState<string>("satellite");
   const [selectedFeature, setSelectedFeature] = useState<GisFeature | null>(null);
   const [hoveredFeature, setHoveredFeature] = useState<GisFeature | null>(null);
   const [isTableCollapsed, setIsTableCollapsed] = useState<boolean>(true);
@@ -213,12 +213,12 @@ export default function App() {
         fillColor = "#f472b6";
         weight = 1.5;
         opacity = 0.95;
-      } else if (lowerName.includes("river") || lowerName.includes("canal") || lowerName.includes("water")) {
+      } else if (lowerName.includes("river") || lowerName.includes("canal") || lowerName.includes("water") || type === "linestring") {
         color = "#0ea5e9"; // stream sky blue
         fillColor = "#38bdf8";
         weight = 2.5;
         opacity = 1.0;
-        fillOpacity = 0.1;
+        fillOpacity = 0; // line layers have no fill
       } else if (lowerName.includes("district") || lowerName.includes("boundary")) {
         color = "#a16207"; // Golden brown outline
         fillColor = "#fbbf24"; // Mustard polygon fill
@@ -244,10 +244,21 @@ export default function App() {
         fillColor = `hsl(${hue}, 70%, 65%)`;
       }
 
+      // Apply overrides:
+      // "Make All Polygon layer hollow no fill, only add boundary colour with white."
+      if (type === "polygon") {
+        color = "#ffffff";
+        fillColor = "transparent";
+        fillOpacity = 0;
+      } else if (type === "linestring") {
+        // "Take care of layers that are in line geometry"
+        fillOpacity = 0;
+      }
+
       return {
         id: `layer-${index}-${name.replace(/\s+/g, '-')}`,
         name: name,
-        visible: name === "District-Boundary" || name === "Block-Boundary" || name === "Landuse-Agriculture",
+        visible: name === "District-Boundary",
         type: type,
         color: color,
         fillColor: fillColor,
