@@ -3,6 +3,8 @@ import { GisFeature, LayerConfig, BaseMap } from "./types";
 import Sidebar from "./components/Sidebar";
 import MapComponent from "./components/MapComponent";
 import AttributeTable from "./components/AttributeTable";
+import Login from "./components/Login";
+import ThemeToggle from "./components/ThemeToggle";
 import { 
   Database, 
   Layers, 
@@ -16,10 +18,33 @@ import {
   Sparkles, 
   Info,
   ServerCrash,
-  RefreshCw
+  RefreshCw,
+  LogOut,
+  Lock
 } from "lucide-react";
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem("chamoli_geoportal_auth") === "true";
+  });
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    const saved = localStorage.getItem("chamoli_geoportal_theme");
+    return saved === "dark" ? "dark" : "light";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("chamoli_geoportal_theme", theme);
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
   const [features, setFeatures] = useState<GisFeature[]>([]);
   const [layers, setLayers] = useState<LayerConfig[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -329,21 +354,27 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen bg-slate-100 overflow-hidden font-sans">
+    <div className={`flex flex-col h-screen w-screen overflow-hidden font-sans transition-colors duration-200 ${
+      theme === "light" ? "bg-slate-100 text-slate-800" : "bg-slate-950 text-slate-100"
+    }`}>
       {/* Visual Navigation Header */}
-      <header className="h-14 bg-slate-900 text-slate-100 px-4 flex items-center justify-between border-b border-slate-950 shrink-0 select-none shadow-md">
+      <header className="h-14 px-4 flex items-center justify-between border-b shrink-0 select-none shadow-md transition-colors duration-200 relative z-[10000] bg-slate-900 text-slate-100 border-slate-800">
         <div className="flex items-center space-x-3">
           <div className="bg-indigo-600 p-1.5 rounded-lg text-white shadow-sm flex items-center justify-center">
             <Compass className="w-5 h-5 text-indigo-100" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-extrabold tracking-tight text-white uppercase">Geography For District Planners/Administrators</span>
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-1.5 py-0.5 rounded border border-emerald-500/30 animate-pulse">
+              <span className="text-sm font-extrabold tracking-tight uppercase text-white">
+                Geography For District Planners/Administrators
+              </span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded border animate-pulse bg-emerald-500/20 text-emerald-300 border-emerald-500/30">
                 Live Server
               </span>
             </div>
-            <h2 className="text-base font-bold tracking-tight text-slate-200">District Chamoli</h2>
+            <h2 className="text-base font-bold tracking-tight text-slate-200">
+              District Chamoli
+            </h2>
           </div>
         </div>
 
@@ -358,21 +389,41 @@ export default function App() {
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
             <span>Sync Database</span>
           </button>
-          <div className="hidden md:flex items-center gap-1.5 bg-slate-800 px-2.5 py-1.5 rounded-md">
+          <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border bg-slate-800 text-slate-300 border-slate-700/60">
             <Layers className="w-3.5 h-3.5 text-indigo-400" />
             <span>Layers: <strong className="text-white font-mono">{layers.length}</strong></span>
           </div>
-          <div className="hidden md:flex items-center gap-1.5 bg-slate-800 px-2.5 py-1.5 rounded-md">
+          <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border bg-slate-800 text-slate-300 border-slate-700/60">
             <Database className="w-3.5 h-3.5 text-pink-400" />
             <span>Entities: <strong className="text-white font-mono">{features.length}</strong></span>
           </div>
+
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+
+          {isAuthenticated && (
+            <button
+              onClick={() => {
+                localStorage.removeItem("chamoli_geoportal_auth");
+                setIsAuthenticated(false);
+              }}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md transition duration-150 text-xs font-medium cursor-pointer border bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border-slate-700/60"
+              title="Sign out of Chamoli Geoportal"
+            >
+              <LogOut className="w-3.5 h-3.5 text-slate-400" />
+              <span className="hidden sm:inline">Logout</span>
+            </button>
+          )}
         </div>
       </header>
 
       {/* Main Core GIS Workspace Layout */}
       <main className="flex-1 flex overflow-hidden min-h-0 relative">
+        {/* Transparent Login Modal Overlay */}
+        {!isAuthenticated && (
+          <Login onLoginSuccess={() => setIsAuthenticated(true)} theme={theme} />
+        )}
         {loading ? (
-          <div className="absolute inset-x-0 inset-y-0 bg-slate-900/90 backdrop-blur-sm flex flex-col items-center justify-center z-50 p-6 select-none font-sans">
+          <div className="absolute inset-x-0 inset-y-0 bg-slate-950/30 flex flex-col items-center justify-center z-50 p-6 select-none font-sans">
             <div className="bg-slate-800 border border-slate-700/80 p-8 rounded-2xl shadow-2xl flex flex-col items-center max-w-sm text-center">
               <div className="h-12 w-12 rounded-full bg-indigo-500/10 flex items-center justify-center mb-4">
                 <Loader2 className="w-6 h-6 text-indigo-500 animate-spin" />

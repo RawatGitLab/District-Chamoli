@@ -65,7 +65,7 @@ function projectCoordinates(coordinates: any): any {
 const app = express();
 const PORT = 3000;
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI ;
 const MONGODB_DB = process.env.MONGODB_DB;
 const MONGODB_COLLECTION = process.env.MONGODB_COLLECTION;
 
@@ -87,6 +87,18 @@ async function getMongoClient() {
 
 // Enable JSON parser
 app.use(express.json());
+
+// API: Authentication endpoint
+app.post("/api/login", (req, res) => {
+  const { username, password } = req.body || {};
+  const expectedUser = process.env.AUTH_USERNAME;
+  const expectedPass = process.env.AUTH_PASSWORD;
+
+  if (username && password && username.trim() === expectedUser && password.trim() === expectedPass) {
+    return res.json({ success: true });
+  }
+  return res.status(401).json({ success: false, error: "Invalid username or password. Please try again." });
+});
 
 // API: Debug MongoDB schema
 app.get("/api/debug", async (req, res) => {
