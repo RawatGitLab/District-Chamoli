@@ -406,10 +406,10 @@ export default function App() {
                 localStorage.removeItem("chamoli_geoportal_auth");
                 setIsAuthenticated(false);
               }}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md transition duration-150 text-xs font-medium cursor-pointer border bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border-slate-700/60"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md transition duration-150 text-xs font-semibold cursor-pointer border bg-red-600 hover:bg-red-700 text-white border-red-500 shadow-xs"
               title="Sign out of Chamoli Geoportal"
             >
-              <LogOut className="w-3.5 h-3.5 text-slate-400" />
+              <LogOut className="w-3.5 h-3.5 text-white" />
               <span className="hidden sm:inline">Logout</span>
             </button>
           )}
